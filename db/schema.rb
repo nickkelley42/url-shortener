@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2019_09_23_133432) do
 
-  create_table "short_urls", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "short_urls", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "full_url"
     t.string "title"
     t.integer "click_count", default: 0
