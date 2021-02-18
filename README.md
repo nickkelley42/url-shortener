@@ -48,3 +48,5 @@ the process is reversed, and we convert from the base-62 string to an integer.
   * Add a prefix to all shortened URLs to prevent collisions
   * Modify shortening algorithm to skip shortened URLs that conflict with the
     API (fragile; this will break any time we change the API)
+* TODO: Queue the UpdateTitleJob from the create method in the controller.
+* TODO: Create a job that updates the click count, to improve response times.

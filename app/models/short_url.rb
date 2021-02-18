@@ -50,6 +50,15 @@ class ShortUrl < ApplicationRecord
     self.find url_id
   end
 
+  def public_attributes
+    {
+      "short_code" => short_code,
+      "full_url" => full_url,
+      "title" => title,
+      "click_count" => click_count
+    }
+  end
+
   private
 
   def validate_full_url
