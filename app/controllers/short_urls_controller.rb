@@ -25,13 +25,7 @@ class ShortUrlsController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       render json: "Not found", :status => :not_found
     else 
-
-      # Normally I would want to check that a save was successful, but in this
-      # case, the user does not care whether the save worked; they just want
-      # to be redirected.
-      @short_url.click_count += 1
-      @short_url.save
-
+      IncrementClickCountJob.perform_later(@short_url.id)
       redirect_to @short_url.full_url
     end
   end

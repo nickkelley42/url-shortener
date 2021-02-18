@@ -58,7 +58,10 @@ RSpec.describe ShortUrlsController, type: :controller do
     end
 
     it "increments the click_count for the url" do
-      expect { get :show, params: { id: short_url.short_code }, format: :json }.to change { ShortUrl.find(short_url.id).click_count }.by(1)
+      expect {
+        get :show, params: { id: short_url.short_code }, format: :json
+        perform_enqueued_jobs
+      }.to change { ShortUrl.find(short_url.id).click_count }.by(1)
     end
 
   end
