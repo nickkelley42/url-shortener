@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ShortUrlsController, type: :controller do
+  include ActiveJob::TestHelper
 
   let(:parsed_response) { JSON.parse(response.body) }
 
@@ -33,6 +34,13 @@ RSpec.describe ShortUrlsController, type: :controller do
       expect(parsed_response['errors']).to be_include("Full url is not a valid url")
     end
 
+    it "queues the UpdateTitleJob" do
+      url = "https://xkcd.com/1513/" 
+      post :create, params: { full_url: url }, format: :json
+      perform_enqueued_jobs
+      short_url = ShortUrl.find_by full_url: url
+      expect(short_url.title).to eq("xkcd: Code Quality")
+    end
   end
 
   describe "show" do

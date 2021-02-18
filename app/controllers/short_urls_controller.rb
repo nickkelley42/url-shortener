@@ -14,6 +14,7 @@ class ShortUrlsController < ApplicationController
     rescue ActiveRecord::RecordInvalid
       render json: { :errors => "Full url is not a valid url" }, :status => :bad_request
     else
+      UpdateTitleJob.perform_later(@short_url.id)
       render json: { :short_code => @short_url.short_code }
     end
   end
@@ -21,7 +22,6 @@ class ShortUrlsController < ApplicationController
   def show
     begin
       @short_url = ShortUrl.find_by_short_code params[:id]
-
     rescue ActiveRecord::RecordNotFound
       render json: "Not found", :status => :not_found
     else 
