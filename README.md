@@ -41,10 +41,10 @@ the process is reversed, and we convert from the base-62 string to an integer.
 
 # Limitations/Bugs/To-do
 
-* BUG: If the number of stored URLs increases too much, then there will be a
-  naming collision as the shortened URLs will conflict with the API URLs, e.g.
-  the URL with short code `"short_urls.json"` will be inaccessible.
-  Possible solutions:
-  * Add a prefix to all shortened URLs to prevent collisions
-  * Modify shortening algorithm to skip shortened URLs that conflict with the
-    API (fragile; this will break any time we change the API)
+* POSSIBLE BUG: If the number of stored URLs increases too much, and if we ever
+  change the API to include routes with only alphanumeric characters in the URL,
+  then we may end up with naming conflicts in the future. If we anticipate
+  needing to change the API, we should do one of the following:
+  * Change the shortening algorithm to skip conflicting shortcodes.
+  * Add a prefix to the shortened URLs
+  * Add a prefix to API URLs (e.g. "/api/v1/...")
