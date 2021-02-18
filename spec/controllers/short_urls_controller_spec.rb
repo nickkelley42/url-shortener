@@ -20,6 +20,15 @@ RSpec.describe ShortUrlsController, type: :controller do
       expect(parsed_response['urls']).to be_include(short_url.public_attributes)
     end
 
+    it "limits the response to 100 urls" do
+      1.upto 101 do |i|
+        ShortUrl.create(full_url: "https://xkcd.com/#{i}")
+      end
+
+      get :index, format: :json
+      expect(parsed_response['urls'].length).to eq(100)
+    end
+
   end
 
   describe "create" do
